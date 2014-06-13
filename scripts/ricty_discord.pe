@@ -1,0 +1,246 @@
+#!/usr/bin/env fontforge -script
+
+fonttype = "Ricty"
+trait = "Discord"
+fontstyle = $1
+
+k_space="false"
+k_quotedbl="true"
+k_quotesingle="true"
+k_asterisk="true"
+k_plus="true"
+k_comma="true"
+k_hyphen="true"
+k_period="true"
+k_0="true"
+k_7="false"
+k_colon="true"
+k_semicolon="true"
+k_less_greater="true"
+k_equal="true"
+k_D="false"
+k_Z="false"
+k_asciicircum="true"
+k_grave="true"
+k_l="true"
+k_r="true"
+k_z="false"
+k_bar="true"
+k_asciitilde="true"
+
+font = fonttype + "-" + fontstyle + ".ttf"
+Print("Open " + font + ".")
+Open(ToLower(font))
+    Reencode("unicode")
+
+    if (k_space == "true")
+        Select(0u2423) # open box
+        Copy()
+        Select(0u0020)
+        Paste()
+    endif
+        
+    if (k_quotedbl == "true")
+        Select(0u0022)
+        Scale(115, 115, 250, 600)
+        SetWidth(500)
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_quotesingle == "true")
+        Select(0u0027)
+        Scale(115, 115, 250, 600)
+        SetWidth(500)
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_asterisk == "true")
+        Select(0u002a)
+        Move(0, -80)
+    endif
+        
+    if (k_plus == "true")
+        Select(0u002b)
+        Move(0, -80)
+    endif
+        
+    if (k_comma == "true")
+        Select(0u002c)
+        Scale(115, 115, 250, 0)
+        SetWidth(500)
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_hyphen == "true")
+        Select(0u002d)
+        Move(0, -80)
+    endif
+        
+    if (k_period == "true")
+        Select(0u002e)
+        Scale(115, 115, 250, 0)
+        SetWidth(500)
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_0 == "true")
+        Select(0u00b7) # middle dot
+        Copy()
+        Select(0u0030)
+        Paste()
+        CenterInWidth()
+        Select(65610) # zero (Inconsolata's unused glyph)
+        Copy()
+        Select(0u0030)
+        PasteInto()
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_7 == "true")
+        Select(0u00af) # macron
+        Copy()
+        Select(0u0037)
+        PasteWithOffset(20, -263)
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_colon == "true")
+        Select(0u003a)
+        Scale(115, 115, 250, 0)
+        SetWidth(500)
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_semicolon == "true")
+        Select(0u003b)
+        Scale(115, 115, 250, 0)
+        SetWidth(500)
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_less_greater == "true")
+        Select(0u003c)
+        Move(0, -80)
+        Select(0u003e)
+        Move(0, -80)
+    endif
+        
+    if (k_equal == "true")
+        Select(0u003d)
+        Move(0, -80)
+    endif
+        
+    if (k_D == "true")
+        Select(0u0110)
+        Copy()
+        Select(0u0044)
+        Paste()
+    endif
+        
+    if (k_Z == "true")
+        Select(0u00af) # macron
+        Copy()
+        Select(65611) # Temporary glyph
+        Paste()
+        Transform(100, -65, 0, 100, 0, -12000)
+        SetWidth(500)
+        Copy()
+        Select(0u005a)
+        PasteInto()
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+        Select(65611) # Temporary glyph
+        Clear()
+    endif
+        
+    if (k_asciicircum == "true")
+        Select(0u005e)
+        Scale(115, 115, 250, 600)
+        SetWidth(500)
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_grave == "true")
+        Select(0u0060)
+        Scale(115, 115, 250, 600)
+        SetWidth(500)
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+    endif
+        
+    if (k_l == "true")
+        Select(0u006c)
+        Copy()
+        Rotate(180)
+        Move(1, 0)
+        SetWidth(500)
+        PasteInto()
+        OverlapIntersect()
+    endif
+        
+    if (k_r == "true")
+        Select(65608)
+        Copy()
+        Select(0u0072)
+        Paste()
+    endif
+        
+    if (k_z == "true")
+        Select(0u00af) # macron
+        Copy()
+        Select(65611) # Temporary glyph
+        Paste()
+        Transform(75, -52, 0, 100, 5500, -23500)
+        SetWidth(500)
+        Copy()
+        Select(0u007a)
+        PasteInto()
+        RoundToInt()
+        RemoveOverlap()
+        RoundToInt()
+        Select(65611) # Temporary glyph
+        Clear()
+    endif
+        
+    if (k_bar == "true")
+        Select(0u00a6)
+        Copy()
+        Select(0u007c)
+        Paste()
+    endif
+        
+    if (k_asciitilde == "true")
+        Select(0u007e)
+        Move(0, 120)
+    endif
+
+    fontfamily = fonttype + " " + trait
+    fullfamily = fontfamily + " " + fontstyle
+    postscript_name = fonttype + trait + "-" + fontstyle
+    SetFontNames(postscript_name, fontfamily, fullfamily, fontstyle)
+
+    Generate(ToLower(postscript_name) +  ".ttf", "", 0x84)
+    Print("Generate " + fullfamily + ".")
+Close()
+
+Quit()

@@ -1,0 +1,74 @@
+#!/usr/bin/env fontforge -script
+
+fontfamily = "Migu " + $1
+fontstyle = $2
+version = Strftime("%Y.%m%d", 0, 'C')
+
+ipagothic_regular = "IPAGothic-regular.sfd"
+ipagothic_bold = "IPAGothic-bold.sfd"
+complement = ipagothic_regular
+if (Strstr(fontstyle, "ld") > 1)
+   complement = ipagothic_bold
+endif
+copyright_ipagothic = "IPA Gothic Ver.003.03: Copyright (c) 2003-2011 " \
+                    + "Information-technology Promotion Agency, Japan\n"
+
+
+font = "circle-mplus-1m-" + fontstyle + ".ttf"
+Print("Open " + font + ".")
+Open(font)
+    Reencode("unicode4")
+    ttf_version = GetTTFName(0x409, 5)
+    ttfvWord = StrSplit(ttf_version, ".")
+    version_mplus = "TESTFLIGHT " + ttfvWord[1]
+    copyright_mplus = "M+ " + version_mplus + ": " \
+                    + "Copyright (c) " + Strftime("%Y",0,'C') + " M+ FONTS PROJECT\n"
+    
+    Print("Merge " + font:t + " + " + complement:t + "...")
+    MergeFonts(complement)
+    
+    Select(".notdef")
+    DetachAndRemoveGlyphs()
+    
+    # set_instructions()
+    instr = "PUSHW_2 0x01ff 0x0 SCANTYPE SCANCTRL"
+    AddInstrs("prep", 1, instr)
+    depth = GetMaxpValue("MaxStackDepth")
+    SetMaxpValue("MaxStackDepth", depth + 4)
+
+    SelectWorthOutputting()
+    RoundToInt()
+    RemoveOverlap()
+    RoundToInt()
+
+    fontfamily_word = StrSplit(fontfamily, " ")
+    fontfamily_no_space = StrJoin(fontfamily_word, "-")
+
+    weight = GetTTFName(0x409, 2)
+    fullfamily = fontfamily + " " + weight
+    postscript_name = fontfamily_no_space + weight
+    unique_id = "FontForge 2.0 : " + fullfamily + " : " + Strftime("%-d-%-m-%Y", 0, 'C')
+    copyright = "Migu: Copyright (c) " + Strftime("%Y", 0, 'C') + " itouhiro"
+    copyright += copyright_mplus + copyright_ipagothic
+    
+    SetFontNames(postscript_name, fontfamily, fullfamily, weight, copyright)
+    
+    SetTTFName(0x409, 1, fontfamily)
+    SetTTFName(0x409, 3, unique_id)
+    SetTTFName(0x409, 5, version)
+    SetTTFName(0x409, 11, "http://mix-mplus-ipa.sourceforge.jp")
+    SetOS2Value("VendorID", "Mig ")
+
+    SetTTFName(0x411, 0, copyright)
+    SetTTFName(0x411, 1, GetTTFName(0x409,1))
+    SetTTFName(0x411, 2, weight)
+    SetTTFName(0x411, 3, unique_id)
+    SetTTFName(0x411, 4, GetTTFName(0x409,4))
+    SetTTFName(0x411, 5, version)
+    SetTTFName(0x411, 11, "http://mix-mplus-ipa.sourceforge.jp")
+    
+    Generate(ToLower(postscript_name) + ".ttf", "", 0x800084)
+    Print("Generate " + fullfamily + ".")
+Close()
+
+Quit()
